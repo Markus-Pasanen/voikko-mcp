@@ -11,7 +11,7 @@ Finnish language verification MCP server powered by [libvoikko](https://voikko.p
 - **Morphological analysis** — inspect base form, case, number, possessive suffixes
 - **Hyphenation** — syllable-aware word splitting for line-breaking and pronunciation
 - **Tokenization** — split Finnish text into words, whitespace, and punctuation tokens
-- **SSE transport** — runs as a web server, no local process management needed
+- **Streamable HTTP transport** — runs as a web server, no local process management needed
 
 ## Prerequisites
 
@@ -23,7 +23,7 @@ Finnish language verification MCP server powered by [libvoikko](https://voikko.p
 docker compose up --build
 ```
 
-The server starts on `http://localhost:8000` with SSE transport.
+The server starts on `http://localhost:8000` with Streamable HTTP transport (endpoint at `/mcp`).
 
 ## Tools
 
@@ -46,7 +46,8 @@ All tools include error handling and return empty/fallback values on failure.
 **Settings > MCP Servers > Add**:
 
 - **Name**: `voikko-mcp`
-- **SSE URL**: `http://localhost:8000/sse`
+- **Transport**: Streamable HTTP
+- **URL**: `http://localhost:8000/mcp`
 
 ### OpenCode
 
@@ -57,7 +58,7 @@ Add to `opencode.json`:
   "mcp": {
     "voikko-mcp": {
       "type": "remote",
-      "url": "http://localhost:8000/sse"
+      "url": "http://localhost:8000/mcp"
     }
   }
 }
@@ -71,8 +72,8 @@ Add to `claude_desktop_config.json`:
 {
   "mcpServers": {
     "voikko-mcp": {
-      "type": "sse",
-      "url": "http://localhost:8000/sse"
+      "type": "streamableHttp",
+      "url": "http://localhost:8000/mcp"
     }
   }
 }
@@ -80,18 +81,18 @@ Add to `claude_desktop_config.json`:
 
 ### Cursor
 
-Add an MCP server entry with SSE transport pointing to `http://localhost:8000/sse`.
+Add an MCP server entry with Streamable HTTP transport pointing to `http://localhost:8000/mcp`.
 
 ## Architecture
 
 ```
-Client (OpenWebUI / OpenCode / Claude) ──GET /sse──▶ uvicorn ──▶ FastMCP ──▶ libvoikko
-                  ◀──SSE stream (JSON-RPC)──
+Client (OpenWebUI / OpenCode / Claude) ──POST /mcp──▶ uvicorn ──▶ FastMCP ──▶ libvoikko
+                  ◀──Streamable HTTP (JSON-RPC)──
 ```
 
 - **Python 3.11** with **FastMCP** from the official MCP Python SDK
 - **libvoikko** C++ library via its Python bindings for all linguistic operations
-- **SSE transport** over uvicorn, binding `0.0.0.0:8000`
+- **Streamable HTTP transport** over uvicorn, binding `0.0.0.0:8000`
 - Docker image based on `python:3.11-slim` with `libvoikko-dev` and `voikko-fi`
 
 ## Credits
