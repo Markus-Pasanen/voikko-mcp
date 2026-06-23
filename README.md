@@ -1,6 +1,6 @@
 # voikko-mcp
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
 Finnish language verification MCP server powered by [libvoikko](https://voikko.puimula.org/). Provides spell checking, grammar checking, morphological analysis, hyphenation, and tokenization as MCP tools for any MCP-compatible client (OpenWebUI, OpenCode, Claude Desktop, Cursor, etc.).
 
@@ -103,4 +103,4 @@ Client (OpenWebUI / OpenCode / Claude) ──GET /sse──▶ uvicorn ──▶
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+GNU General Public License v3.0 or later — see [LICENSE](LICENSE) for details.

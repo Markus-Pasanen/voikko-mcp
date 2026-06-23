@@ -1,4 +1,8 @@
-"""Finnish language verification MCP server powered by libvoikko."""
+"""Finnish language verification MCP server powered by libvoikko.
+
+Copyright (C) 2026  Markus Pasanen
+SPDX-License-Identifier: GPL-3.0-or-later
+"""
 
 import re
 
